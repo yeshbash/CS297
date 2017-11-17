@@ -1,0 +1,53 @@
+Yeshwanth B. Balachander
+San Jose, CA - 95112 | +1-520-224-0849 | yeshbash@gmail.com 	 	            github.com/yeshbash | www.linkedin.com/in/yeshbash                                                                                                    
+SUMMARY
+•	5 years of professional software development experience in both Agile and Waterfall methodologies.
+•	Proficient in Java and Python programming; Passionate about Big Data processing and Machine Learning.
+EDUCATION
+Master of Science (MS). in Computer Science, San Jose State University. GPA: 4.0			              Aug ‘16 - May ‘18 
+Bachelor of Engineering (BE) in Computer Science, Anna University. GPA: 3.6			              Sep ’07 - May ‘11
+TECHNICAL SKILLS 
+ 
+Expertise: Java, Python, C, REST, SOAP, HTML, JS, Node JS,
+Databases: Oracle, MySQL, PL/SQL, MongoDB, Neo4j
+Frameworks: Spring Boot, Django, Flask
+Big Data: Apache Spark, Kafka, Hadoop MapReduce, HDFS, ElasticSearch, Kibana, Machine Learning
+Other: Maven, SVN, GIT, Eclipse, ClearCase, Windows, Linux 
+RELEVANT COURSEWORK
+Design and Analysis of Algorithms - Introduction to Big Data and Machine Learning – Mining Massive Data Sets – Artificial Intelligence – Topics in Machine Learning - Software Engineering - Object Oriented Analysis and Design
+PROFESSIONAL EXPERIENCE 
+Software Engineer Intern			PayPal Inc.					June 2017 – Aug 2017
+•	Developed a root cause analysis feature for PayPal’s auto remediation system using Neo4j, Django and AlchemyJS
+•	Optimally analyzed the dense application graph ~3000 nodes and generated intuitive graph visualizations of the analysis.
+•	The feature tremendously reduced turnaround time of failure analysis for live applications on a real time basis.
+Technology Consultant			 	Deloitte Consulting			              October 2015 – July 2016
+•	Designed and Developed BPM/EAI components using Java, WPS and WMB following Agile development methodology
+•	Quickly ramped up to pace of a well set team to design implement and fix critical components under challenging timelines
+Technology Analyst			 	Infosys Limited	 			            April 2015 – October 2015
+•	  Developed web services using Java, PL/SQL and IBM's BPM/EAI technologies for large scale SOA integration projects
+•	Exhibited strong programming skills by developing high quality code with less than 1 defect per component on average
+•	Performed performance optimizations on web services and achieved 75% improvement in response time on average
+•	Mentored a team of 5 members on project activities and conducted knowledge sharing session for related teams
+ Awards: INSPIRE award and Client Appreciation award for Q3FY15.
+Systems Engineer, Sr. Systems Engineer		 Infosys Limited				    	 June 2011 – March 2015
+•	Led a component design team from client location by assessing SOA integration patterns through proof of concepts
+•	Developed and maintained over 10 functional components using Java and IBM WebSphere Process Server technology
+•	Analyzed and fixed over 75 critical U.A.T and Functional Testing defects (15% of total defects), ensuring application sanity
+•	Awards: Insta Award for excellence - 2012
+ACADEMIC PROJECTS
+Optimizing Budget Allocation for Online Social Network (OSN) Ads. Individual Project, San Jose State University.
+-  Optimized an existing Budget Allocation algorithm for OSN ads that aimed at maximizing the user reach for a given budget.
+-  Employed a greedy approximation strategy and achieved over 200% improvement in runtime for user size of over 1 million.
+Brand’s Social Sentiment Analysis. Team Project, San Jose State University.
+-  Built a Naïve Bayes machine learning model using Apache Spark MLlib to classify tweet sentiment.
+-  Built the data pipeline with a multithreaded twitter streaming API client producing tweets to configurable Kafka Topics.
+-  Indexed the analysis results in Elastic Search and created data visualizations for the analysis results using Kibana
+Context Aware Recommendation System. Individual Project, San Jose State University.
+-	 Enhanced an existing context-aware recommendation system following hybrid strategies using sklearn and graphlab.
+-	 Improved relevancy by performing content based similarity with user profile on top of the collaborative filtering results.
+Uber Assistant – A Google Assistant Bot. Team Project, Uber Hacks – Hackathon
+- Developed a Google Assistant bot to make Uber reservations using Google Actions API, API.AI, Python and Uber Rides API.
+- Designed the bot interface in API.AI and fulfilled the Uber API integration through web services developed using Python Flask
+Mobile Retail Checkout Application. Team Project, Hack Merced - Hackathon
+-  Developing HTTP REST web services using Spring Boot Framework by integrating with a Mongo DB backend.
+-  Implementing HATEOAS links to drive application state transitions for the frontend mobile client.

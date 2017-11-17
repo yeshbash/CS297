@@ -1,0 +1,35 @@
+{
+   "DocumentElement":{
+      "Resume":{
+         "Name":"Yeshwanth B. Balachander San Jose",
+         "DOB":null,
+         "Zipcode":null,
+         "Address":null,
+         "City":null,
+         "State":null,
+         "Country":null,
+         "ZipCityStateCountry":null,
+         "AddressValidated":"False",
+         "Email":"yeshbash@gmail.com",
+         "Phone":"520-224-0849",
+         "InternationalPhone":null,
+         "Summary":"SUMMARY,",
+         "Skills":"Databases, Big Data, Windows, Design, Analysis, Algorithms, Engineering, Applications, Technology, Consulting, Development, Methodology, Programming, Performance, Testing, Budget, Strategy,",
+         "Experience":"5 years of professional software development experience in both Agile and Waterfall methodologies.,Proficient in Java and Python programming; Passionate about Big Data processing and Machine Learning.,",
+         "Education":"San Jose State University, Anna University,",
+         "Interests":null,
+         "MaritalStatus":null,
+         "Nationality":null,
+         "Passport":null,
+         "Languages":null,
+         "Specialties":null,
+         "References":null,
+         "CurrentSalary":null,
+         "ExpectedSalary":null,
+         "Gender":null,
+         "Employer":null,
+         "Position":null,
+         "ResumeText":"Yeshwanth B. Balachander\nSan Jose, CA - 95112 | +1-520-224-0849 | yeshbash@gmail.com \t \t            github.com/yeshbash | www.linkedin.com/in/yeshbash\nSUMMARY\n \t5 years of professional software development experience in both Agile and Waterfall methodologies.\n \tProficient in Java and Python programming; Passionate about Big Data processing and Machine Learning.\nEDUCATION\nMaster of Science (MS). in Computer Science, San Jose State University. GPA: 4.0\t\t\t              Aug 16 - May 18\nBachelor of Engineering (BE) in Computer Science, Anna University. GPA: 3.6\t\t\t              Sep 07 - May 11\nTECHNICAL SKILLS\n\nExpertise: Java, Python, C, REST, SOAP, HTML, JS, Node JS,\nDatabases: Oracle, MySQL, PL/SQL, MongoDB, Neo4j\nFrameworks: Spring Boot, Django, Flask\nBig Data: Apache Spark, Kafka, Hadoop MapReduce, HDFS, ElasticSearch, Kibana, Machine Learning\nOther: Maven, SVN, GIT, Eclipse, ClearCase, Windows, Linux\nRELEVANT COURSEWORK\nDesign and Analysis of Algorithms - Introduction to Big Data and Machine Learning  Mining Massive Data Sets  Artificial Intelligence  Topics in Machine Learning - Software Engineering - Object Oriented Analysis and Design\nPROFESSIONAL EXPERIENCE\nSoftware Engineer Intern\t\t\tPayPal Inc.\t\t\t\t\tJune 2017  Aug 2017\n \tDeveloped a root cause analysis feature for PayPals auto remediation system using Neo4j, Django and AlchemyJS\n \tOptimally analyzed the dense application graph ~3000 nodes and generated intuitive graph visualizations of the analysis.\n \tThe feature tremendously reduced turnaround time of failure analysis for live applications on a real time basis.\nTechnology Consultant\t\t\t \tDeloitte Consulting\t\t\t              October 2015  July 2016\n \tDesigned and Developed BPM/EAI components using Java, WPS and WMB following Agile development methodology\n \tQuickly ramped up to pace of a well set team to design implement and fix critical components under challenging timelines\nTechnology Analyst\t\t\t \tInfosys Limited\t \t\t\t            April 2015  October 2015\n \t  Developed web services using Java, PL/SQL and IBM's BPM/EAI technologies for large scale SOA integration projects\n \tExhibited strong programming skills by developing high quality code with less than 1 defect per component on average\n \tPerformed performance optimizations on web services and achieved 75% improvement in response time on average\n \tMentored a team of 5 members on project activities and conducted knowledge sharing session for related teams\nAwards: INSPIRE award and Client Appreciation award for Q3FY15.\nSystems Engineer, Sr. Systems Engineer\t\t Infosys Limited\t\t\t\t    \t June 2011  March 2015\n \tLed a component design team from client location by assessing SOA integration patterns through proof of concepts\n \tDeveloped and maintained over 10 functional components using Java and IBM WebSphere Process Server technology\n \tAnalyzed and fixed over 75 critical U.A.T and Functional Testing defects (15% of total defects), ensuring application sanity\n \tAwards: Insta Award for excellence - 2012\nACADEMIC PROJECTS\nOptimizing Budget Allocation for Online Social Network (OSN) Ads. Individual Project, San Jose State University.\n- Optimized an existing Budget Allocation algorithm for OSN ads that aimed at maximizing the user reach for a given budget.\n- Employed a greedy approximation strategy and achieved over 200% improvement in runtime for user size of over 1 million.\nBrands Social Sentiment Analysis. Team Project, San Jose State University.\n- Built a Na\u00efve Bayes machine learning model using Apache Spark MLlib to classify tweet sentiment.\n- Built the data pipeline with a multithreaded twitter streaming API client producing tweets to configurable Kafka Topics.\n- Indexed the analysis results in Elastic Search and created data visualizations for the analysis results using Kibana\nContext Aware Recommendation System. Individual Project, San Jose State University.\n- \t Enhanced an existing context-aware recommendation system following hybrid strategies using sklearn and graphlab.\n- \t Improved relevancy by performing content based similarity with user profile on top of the collaborative filtering results.\nUber Assistant  A Google Assistant Bot. Team Project, Uber Hacks  Hackathon\n- Developed a Google Assistant bot to make Uber reservations using Google Actions API, API.AI, Python and Uber Rides API.\n- Designed the bot interface in API.AI and fulfilled the Uber API integration through web services developed using Python Flask\nMobile Retail Checkout Application. Team Project, Hack Merced - Hackathon\n- Developing HTTP REST web services using Spring Boot Framework by integrating with a Mongo DB backend.\n- Implementing HATEOAS links to drive application state transitions for the frontend mobile client."
+      }
+   }
+}
