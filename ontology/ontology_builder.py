@@ -25,6 +25,29 @@ visited = set()
 processed = set()
 queue = list()
 
+
+def clean_label(label):
+
+    if label is None: return None
+
+    # remove paranthesis content
+    start = label.find('(')
+    end = label.find(')')
+    if start != -1 and end != -1:
+        result = label[:start]
+        if end+1 < len(label):
+            result += label[end+1:]
+    else:
+        result = label
+
+
+    #Clearning spaces
+    result = result.strip()
+    result = result.replace(' ', '_')
+    #print("before | after : ", label, result)
+    return result
+
+
 def build_ontology():
     while len(queue) > 0:
         skill = queue.pop(0)
@@ -32,28 +55,43 @@ def build_ontology():
             if skill['uri'] not in processed and skill['uri'] not in visited:
                 print("Processing for ", skill['name'])
                 visited.add(skill['uri'])
+
+                # Fetching sub concepts
                 sparql.setQuery(subconcept_query.format(skill['uri']))
                 sparql.setReturnFormat(JSON)
                 sub_concepts = sparql.query().convert()
-                sub_concept_skills = [{"name": r['concept_label']['value'], "uri": r['sub_concepts']['value']} for r in
-                                      sub_concepts['results']['bindings']]
-                #print(sub_concept_skills)
-                n4jclient.merge_skills(driver, [skill])
-                n4jclient.merge_skills(driver, sub_concept_skills)
-                n4jclient.merge_relationship(driver, skill, sub_concept_skills, "subclass")
 
-                sparql.setQuery(resource_query.format(skill['uri']))
-                resources = sparql.query().convert()
-                resource_skills = [{"name": r['resource_label']['value'], "uri": r['resource']['value']} for r in
-                          resources['results']['bindings']]
-                #print(resource_skills)
-                n4jclient.merge_skills(driver, resource_skills)
-                n4jclient.merge_relationship(driver, skill, resource_skills, "subclass")
+                sub_concept_skills = [
+                    {"name": clean_label(r['concept_label']['value']), "uri": r['sub_concepts']['value']} for r in
+                    sub_concepts['results']['bindings']]
 
-                if len(resources) !=0:
+                # Adding sub-concepts for reccursing
+                if len(sub_concept_skills) != 0:
                     queue.extend(sub_concept_skills)
                 else:
                     print("not recursing for ", skill['name'])
+
+                # Software Language resources
+                sparql.setQuery(resource_query.format(skill['uri']))
+                resources = sparql.query().convert()
+                resource_skills = [{"name": clean_label(r['resource_label']['value']), "uri": r['resource']['value']}
+                                   for r in
+                                   resources['results']['bindings']]
+
+                if len(resource_skills) >0:
+                    print("Merging parent : ", skill['name'])
+                    n4jclient.merge_skills(driver, [skill])
+                    n4jclient.merge_skills(driver, resource_skills)
+                    n4jclient.merge_relationship(driver, skill, resource_skills, "subclass")
+
+
+
+                # #print(sub_concept_skills)
+                # n4jclient.merge_skills(driver, [skill])
+                # n4jclient.merge_skills(driver, sub_concept_skills)
+                # n4jclient.merge_relationship(driver, skill, sub_concept_skills, "subclass")
+
+
                 processed.add(skill['uri'])
             else:
                 print("Skill already visited")
@@ -61,7 +99,10 @@ def build_ontology():
             print("Failed for skill:" + skill['name'])
             print("Failure : " + str(e))
 
-parent_skill = {"name": "Object-oriented programming languages", "uri": "http://dbpedia.org/resource/Category:Object-oriented_programming_languages"}
+#parent_skill = {"name": "Object-oriented programming languages", "uri": "http://dbpedia.org/resource/Category:Object-oriented_programming_languages"}
+#parent_skill = {"name": "Machine Learning", "uri": "http://dbpedia.org/resource/Category:Machine_learning"}
+parent_skill = {"name": "Web Development", "uri": "http://dbpedia.org/resource/Category:Web_development"}
+
 queue.append(parent_skill)
 build_ontology()
 
