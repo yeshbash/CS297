@@ -1,6 +1,7 @@
 import json
 import re
 
+
 def n4j_dict_format(query):
     s_query = "{{{}}}"
     kv_pairs = ""
@@ -24,6 +25,10 @@ def filter_dict(dic, _filter):
 
 def merge_skills(driver, skills):
     merge_query = "MERGE (s:Skill {})"
+
+    if not isinstance(skills, list):
+        skills = [skills]
+
     with driver.session() as session:
         with session.begin_transaction() as tx:
             for skill in skills:
@@ -36,6 +41,10 @@ def merge_skills(driver, skills):
 def merge_relationship(driver, parent, children, relationship):
     merge_query = "MATCH (parent:Skill {}), (child:Skill{})" \
               "MERGE  (child)-[:{}]->(parent)"
+
+    if not isinstance(children, list):
+        children = [children]
+
     with driver.session() as session:
         with session.begin_transaction() as tx:
             parent_quey = n4j_dict_format(parent)
@@ -44,3 +53,23 @@ def merge_relationship(driver, parent, children, relationship):
                 q = merge_query.format(parent_quey, child_query, relationship)
                 result = tx.run(q)
                 #print("Merged ", q)
+
+
+def ancestors_by_name(driver, node_type, relationship_type, source_name, include_self=True, limit=5):
+    ancestor_query = "MATCH (p:{node_type})<-[:{relationship_type}*..{limit}]-(c:{node_type}) " \
+                     "WHERE c.name =~'(?i){source_name}' RETURN p.name as name"
+    if not isinstance(limit, int):
+        limit = '*'
+
+    ancestor_query = ancestor_query.format(node_type=node_type, relationship_type=relationship_type,
+                                           limit=limit, source_name=source_name)
+
+    print(ancestor_query)
+    with driver.session() as session:
+        with session.begin_transaction() as tx:
+            res = tx.run(ancestor_query)
+            ancestors = [a['name'] for a in res.records()]
+            if include_self:
+                ancestors.append(source_name)
+    return set(ancestors)
+
