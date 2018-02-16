@@ -130,7 +130,7 @@ def build_ontology():
 
 #parent_skill = {"name": "Object-oriented programming languages", "uri": "http://dbpedia.org/resource/Category:Object-oriented_programming_languages"}
 #parent_skill = {"name": "Machine Learning", "uri": "http://dbpedia.org/resource/Category:Machine_learning"}
-parent_skill = {"skill" : {"name": "Computer Programming", "uri": "http://dbpedia.org/resource/Category:Computer_programming", "type":"category"}, "parent" : None}
+parent_skill = {"skill" : {"name": "NoSQL", "uri": "http://dbpedia.org/resource/Category:NoSQL", "type":"category"}, "parent" : None}
 
 queue.append(parent_skill)
 build_ontology()

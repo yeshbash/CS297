@@ -64,7 +64,7 @@ def ancestors_by_name(driver, node_type, relationship_type, source_name, include
     ancestor_query = ancestor_query.format(node_type=node_type, relationship_type=relationship_type,
                                            limit=limit, source_name=source_name)
 
-    print(ancestor_query)
+    #print(ancestor_query)
     with driver.session() as session:
         with session.begin_transaction() as tx:
             res = tx.run(ancestor_query)
@@ -73,3 +73,44 @@ def ancestors_by_name(driver, node_type, relationship_type, source_name, include
                 ancestors.append(source_name)
     return set(ancestors)
 
+
+def get_root(driver, source_name, node_type, relationship_type):
+    root_query = "MATCH (n:{node_type})-[:{rel_type}*]->(m:{node_type})"\
+                 "where n.name=~'(?i){source_name}' and not((m)-[:{rel_type}]->())"\
+                 "return m.name as name"
+
+    root_query = root_query.format(node_type=node_type, rel_type=relationship_type, source_name=source_name)
+    print(root_query)
+    with driver.session() as session:
+        with session.begin_transaction() as tx:
+            res = tx.run(root_query)
+            root = [r['name'] for r in res.records()]
+    return set(root)
+
+
+def get_skill_by_name(driver, skill_name):
+    skill_query = "MATCH (s:Skill) WHERE s.name=~'(?i){skill_name}' RETURN s"
+    skill_query = skill_query.format(skill_name=skill_name)
+
+    with driver.session() as session:
+        with session.begin_transaction() as tx:
+            res = tx.run(skill_query)
+            return res.records()
+
+
+def shortest_distance_by_name(driver, source_name, target_name, node_type, relationship_type):
+    sp_query = "MATCH (n:{node_type})-[:{rel_type}*]->(m:{node_type})"\
+                "d = shortestpath((n)-[:{rel_type}*]->(m))"\
+                "WHERE n.name =~ '{source_name}' AND m.name =~ '{target_name}'"\
+                " RETURN LENGTH(d) as sp_len"
+
+    sp_query = sp_query.format(node_type=node_type, rel_type=relationship_type,
+                               source_name=source_name, target_name=target_name)
+
+    print(sp_query)
+
+    with driver.session() as session:
+        with session.begin_transaction() as tx:
+            res = tx.run(sp_query)
+            len = [sp['sp_len'] for sp in res.records()]
+    return min(len)
