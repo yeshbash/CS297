@@ -1,5 +1,6 @@
 """ Interface to the custom technical skills ontology """
 from _neo4j.neo4j_client import Neo4jClient
+import common_utils as utils
 from config import *
 
 
@@ -65,6 +66,13 @@ class TSO:
             result.add(skill_name)
 
         return result
+
+    def resolve_skill(self, skill_name):
+        skill_name = utils.clean_skill_label(skill_name)
+        skill = self.find_skill_by_name(skill_name)
+        if skill is None:
+            skill = self.find_skill_by_alias(skill_name)
+        return skill
 
 
 if __name__ == '__main__':

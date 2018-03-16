@@ -1,5 +1,5 @@
+import re
 from neo4j.v1 import GraphDatabase, basic_auth
-
 import _neo4j.utils as neo4j_utils
 
 
@@ -56,8 +56,12 @@ class Neo4jClient:
     def match_by_property(self, node_type, property_name, property_val, case_sensitive=False):
         match_query = "MATCH (s:{node_type}) WHERE s.{property_name}=~'{regex}{property_val}' RETURN s as skill"
         regex = '(?i)' if case_sensitive else ''
+        _property_val = re.escape(property_val).replace("\\", "\\\\")
+
+        print(_property_val)
         match_query = match_query.format(node_type=node_type, property_name=property_name,
-                                         property_val=property_val, regex=regex)
+                                         property_val=_property_val, regex=regex)
+        print(match_query)
         with self.driver.session() as session:
             with session.begin_transaction() as tx:
                 res = tx.run(match_query)
@@ -67,11 +71,15 @@ class Neo4jClient:
         match_query = "MATCH(c:{node_type})-[:{rel_type}]->(p:{parent_type}) where c.{property_name}=~'{regex}{" \
                       "property_val}' RETURN p as parent "
         regex = '(?i)' if case_sensitive else ''
+        _property_val = re.escape(property_val).replace("\\", "\\\\")
         match_query = match_query.format(node_type=node_type, parent_type=parent_type, rel_type=rel_type,
-                                         property_name=property_name, property_val=property_val, regex=regex)
+                                         property_name=property_name, property_val=_property_val, regex=regex)
         with self.driver.session() as session:
             with session.begin_transaction() as tx:
                 res = tx.run(match_query)
                 return [r['parent']for r in res.records()]
 
 
+if __name__ == '__main__':
+    c = Neo4jClient()
+    c.match_by_property("Skill","name","C++", True)

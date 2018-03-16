@@ -93,8 +93,8 @@ if __name__ == "__main__":
     queue = list()
     parent_skill = {
                     "skill": {
-                            "name": "Big_data",
-                            "uri": "http://dbpedia.org/resource/Category:Big_data",
+                            "name": "Web_development",
+                            "uri": "http://dbpedia.org/resource/Category:Web_development",
                             "type": CATEGORY_TYPE
                         },
                     "parent": None
