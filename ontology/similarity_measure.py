@@ -8,7 +8,7 @@ from matplotlib import cm
 from skills_ontology import TSO
 
 
-def _sanchez_distance(ancestors_a, ancestors_b, a=None, b=None, verbose=True):
+def _sanchez_similarity(ancestors_a, ancestors_b, a=None, b=None, verbose=True):
     a_and_b = ancestors_a & ancestors_b
     a_not_b = ancestors_a - ancestors_b
     b_not_a = ancestors_b - ancestors_a
@@ -22,7 +22,7 @@ def _sanchez_distance(ancestors_a, ancestors_b, a=None, b=None, verbose=True):
         print("Common Features : {}\nOnly in {} : {}\nOnly in {} : {}".format(len(a_and_b), a, len(a_not_b), b,
                                                                               len(b_not_a)))
 
-    return distance
+    return 1 - distance
 
 
 def _rodriguez_similarity(ancestors_a, ancestors_b, skill_a, skill_b, verbose=True):
@@ -115,20 +115,20 @@ class SkillSimilarity:
             print("{} Resume skills not found in ontology : [{}] ".format(len(skillset_b - filtered_skillset_b),
                                                                           ", ".join(skillset_b - filtered_skillset_b)))
 
-        distance_scores = collections.defaultdict(dict)
-        similarity_scores = collections.defaultdict(dict)
+        sanchez_scores = collections.defaultdict(dict)
+        rodriguez_scores = collections.defaultdict(dict)
         for job_skill in filtered_skillset_b:
             job_skill_ansc = self._check_and_retrieve_ancestors(job_skill['name'])
             for resume_skill in filtered_skillset_a:
                 resume_skill_ansc = self._check_and_retrieve_ancestors(resume_skill['name'])
-                sdist = _sanchez_distance(job_skill_ansc, resume_skill_ansc, job_skill['name'],
-                                               resume_skill['name'], verbose=verbose)
-                rsim = _rodriguez_similarity(job_skill_ansc, resume_skill_ansc, job_skill['name'],
+                sanchez_sim = _sanchez_similarity(job_skill_ansc, resume_skill_ansc, job_skill['name'],
                                                   resume_skill['name'], verbose=verbose)
-                print("{} and {} . Similarity : {}. Distance : {}".format(job_skill['name'], resume_skill['name'],rsim, sdist))
-                distance_scores[job_skill['name']][resume_skill['name']] = sdist
-                similarity_scores[job_skill['name']][resume_skill['name']] = rsim
-        return distance_scores, similarity_scores
+                rodriguez_sim = _rodriguez_similarity(job_skill_ansc, resume_skill_ansc, job_skill['name'],
+                                                      resume_skill['name'], verbose=verbose)
+                print("{} and {} . Rodriguez Score : {}. Sanchez Score : {}".format(job_skill['name'], resume_skill['name'], rodriguez_sim, sanchez_sim))
+                sanchez_scores[job_skill['name']][resume_skill['name']] = sanchez_sim
+                rodriguez_scores[job_skill['name']][resume_skill['name']] = rodriguez_sim
+        return sanchez_scores, rodriguez_scores
 
     def job_resume_skill_similarity(self, similarity_scores, distance_scores):
         similarity_scores_npa = similarity_scores.values
@@ -137,22 +137,3 @@ class SkillSimilarity:
         print(weighted_average_score)
         similarity = np.mean(weighted_average_score, axis=0)
         return similarity
-
-
-if __name__ == "__main__":
-    skills = ["Java", "Python", "C", "REST", "SOAP", "HTML", "JavaScript", " nodejs", "artificial_Neural_networks",
-               "Hidden Markov Model", "TensorFlow", "scikit-learn", "MongoDB",
-               "Hadoop", "Spark", "Kafka", "ElasticSearch", "Kibana", "Spring Framework", "Django",
-               "Flask", "Apache_Maven", "Subversion", "GIT", "Eclipse", "Rational_ClearCase"]
-    requirements = ["C", "Java", "MYSQL", "Memcached", "Apache_Hadoop", "Apache_Hive", "NoSQL"]
-
-    resume = ["Java script"]
-    jd = ["Node JS", "Spring MVC", "Maven", "Hadoop"]
-    sim = SkillSimilarity()
-    dist_scores, sim_scores = sim.pairwise_score(skills, requirements)
-    dist_scores, sim_scores = pd.DataFrame(dist_scores), pd.DataFrame(sim_scores)
-    plot_pairwise_scores(dist_scores)
-    plot_pairwise_scores(sim_scores)
-    #similarity = sim.job_resume_skill_similarity(sim_scores, dist_scores)
-    #print(similarity)
-

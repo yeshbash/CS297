@@ -1,0 +1,122 @@
+{
+  "JavaScript": {
+    "JavaScript": 1.0,
+    "C_Sharp": 0.2,
+    "PHP": 0.23,
+    "Cascading_Style_Sheets": 0.15,
+    "Java": 0.15,
+    "Python": 0.37,
+    "Ruby": 0.37,
+    "Bash": 0.31,
+    "SQL": 0.18,
+    "C++": 0.18
+  },
+  "C_Sharp": {
+    "JavaScript": 0.2,
+    "C_Sharp": 1.0,
+    "PHP": 0.07,
+    "Cascading_Style_Sheets": 0.09,
+    "Java": 0.15,
+    "Python": 0.11,
+    "Ruby": 0.11,
+    "Bash": 0.14,
+    "SQL": 0.19,
+    "C++": 0.26
+  },
+  "PHP": {
+    "JavaScript": 0.23,
+    "C_Sharp": 0.07,
+    "PHP": 1.0,
+    "Cascading_Style_Sheets": 0.07,
+    "Java": 0.16,
+    "Python": 0.36,
+    "Ruby": 0.32,
+    "Bash": 0.23,
+    "SQL": 0.09,
+    "C++": 0.12
+  },
+  "Cascading_Style_Sheets": {
+    "JavaScript": 0.15,
+    "C_Sharp": 0.09,
+    "PHP": 0.07,
+    "Cascading_Style_Sheets": 1.0,
+    "Java": 0.11,
+    "Python": 0.11,
+    "Ruby": 0.11,
+    "Bash": 0.14,
+    "SQL": 0.19,
+    "C++": 0.13
+  },
+  "Java": {
+    "JavaScript": 0.15,
+    "C_Sharp": 0.15,
+    "PHP": 0.16,
+    "Cascading_Style_Sheets": 0.11,
+    "Java": 1.0,
+    "Python": 0.2,
+    "Ruby": 0.2,
+    "Bash": 0.14,
+    "SQL": 0.14,
+    "C++": 0.23
+  },
+  "Python": {
+    "JavaScript": 0.37,
+    "C_Sharp": 0.11,
+    "PHP": 0.36,
+    "Cascading_Style_Sheets": 0.11,
+    "Java": 0.2,
+    "Python": 1.0,
+    "Ruby": 0.56,
+    "Bash": 0.42,
+    "SQL": 0.14,
+    "C++": 0.14
+  },
+  "Ruby": {
+    "JavaScript": 0.37,
+    "C_Sharp": 0.11,
+    "PHP": 0.32,
+    "Cascading_Style_Sheets": 0.11,
+    "Java": 0.2,
+    "Python": 0.56,
+    "Ruby": 1.0,
+    "Bash": 0.42,
+    "SQL": 0.14,
+    "C++": 0.14
+  },
+  "Bash": {
+    "JavaScript": 0.31,
+    "C_Sharp": 0.14,
+    "PHP": 0.23,
+    "Cascading_Style_Sheets": 0.14,
+    "Java": 0.14,
+    "Python": 0.42,
+    "Ruby": 0.42,
+    "Bash": 1.0,
+    "SQL": 0.18,
+    "C++": 0.18
+  },
+  "SQL": {
+    "JavaScript": 0.18,
+    "C_Sharp": 0.19,
+    "PHP": 0.09,
+    "Cascading_Style_Sheets": 0.19,
+    "Java": 0.14,
+    "Python": 0.14,
+    "Ruby": 0.14,
+    "Bash": 0.18,
+    "SQL": 1.0,
+    "C++": 0.23
+  },
+  "C++": {
+    "JavaScript": 0.18,
+    "C_Sharp": 0.26,
+    "PHP": 0.12,
+    "Cascading_Style_Sheets": 0.13,
+    "Java": 0.23,
+    "Python": 0.14,
+    "Ruby": 0.14,
+    "Bash": 0.18,
+    "SQL": 0.23,
+    "C++": 1.0
+  }
+}

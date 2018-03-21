@@ -1,0 +1,124 @@
+{
+  "JavaScript": {
+    "JavaScript": 1,
+    "C_Sharp": 0.04,
+    "PHP": 0.06,
+    "Cascading_Style_Sheets": 0.24,
+    "Java": 0.07,
+    "Python": 0.02,
+    "Ruby": 0.02,
+    "Bash": 0,
+    "SQL": 0.08,
+    "C++": 0
+  },
+  "C_Sharp": {
+    "JavaScript": 0.04,
+    "C_Sharp": 1,
+    "PHP": 0.01,
+    "Cascading_Style_Sheets": 0.04,
+    "Java": 0.02,
+    "Python": 0.01,
+    "Ruby": 0.02,
+    "Bash": 0,
+    "SQL": 0.11,
+    "C++": 0.03
+  },
+  "PHP": {
+    "JavaScript": 0.06,
+    "C_Sharp": 0.01,
+    "PHP": 1,
+    "Cascading_Style_Sheets": 0.06,
+    "Java": 0.04,
+    "Python": 0.06,
+    "Ruby": 0.06,
+    "Bash": 0,
+    "SQL": 0.04,
+    "C++": 0
+  },
+  "Cascading_Style_Sheets": {
+    "JavaScript": 0.24,
+    "C_Sharp": 0.04,
+    "PHP": 0.06,
+    "Cascading_Style_Sheets": 1,
+    "Java": 0.05,
+    "Python": 0.02,
+    "Ruby": 0.02,
+    "Bash": 0,
+    "SQL": 0.07,
+    "C++": 0
+  },
+  "Java": {
+    "JavaScript": 0.07,
+    "C_Sharp": 0.02,
+    "PHP": 0.04,
+    "Cascading_Style_Sheets": 0.05,
+    "Java": 1,
+    "Python": 0.05,
+    "Ruby": 0.03,
+    "Bash": 0,
+    "SQL": 0.05,
+    "C++": 0.01
+  },
+  "Python": {
+    "JavaScript": 0.02,
+    "C_Sharp": 0.01,
+    "PHP": 0.06,
+    "Cascading_Style_Sheets": 0.02,
+    "Java": 0.05,
+    "Python": 1,
+    "Ruby": 0.13,
+    "Bash": 0,
+    "SQL": 0.02,
+    "C++": 0.02
+  },
+  "Ruby": {
+    "JavaScript": 0.02,
+    "C_Sharp": 0.02,
+    "PHP": 0.06,
+    "Cascading_Style_Sheets": 0.02,
+    "Java": 0.03,
+    "Python": 0.13,
+    "Ruby": 1,
+    "Bash": 0.02,
+    "SQL": 0.03,
+    "C++": 0.04
+  },
+  "Bash": {
+    "JavaScript": 0,
+    "C_Sharp": 0,
+    "PHP": 0,
+    "Cascading_Style_Sheets": 0,
+    "Java": 0,
+    "Python": 0,
+    "Ruby": 0.02,
+    "Bash": 1,
+    "SQL": 0,
+    "C++": 0
+  },
+  "SQL": {
+    "JavaScript": 0.08,
+    "C_Sharp": 0.11,
+    "PHP": 0.04,
+    "Cascading_Style_Sheets": 0.07,
+    "Java": 0.05,
+    "Python": 0.02,
+    "Ruby": 0.03,
+    "Bash": 0,
+    "SQL": 1,
+    "C++": 0.01
+  },
+  "C++":{
+    "JavaScript": 0,
+    "C_Sharp": 0.03,
+    "PHP": 0,
+    "Cascading_Style_Sheets": 0,
+    "Java": 0.01,
+    "Python": 0.02,
+    "Ruby": 0.04,
+    "Bash": 0,
+    "SQL": 0.01,
+    "C++": 1
+  }
+}
+
+
