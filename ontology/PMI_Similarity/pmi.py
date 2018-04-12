@@ -52,6 +52,7 @@ def count_jobs_by_skill(values, es):
 
     return search.query(search_query).count()
 
+
 def pmi(skill_a, skill_b, n, es):
     count_a = count_jobs_by_skill(skill_a, es)
     count_b = count_jobs_by_skill(skill_b, es)
@@ -64,20 +65,23 @@ def pmi(skill_a, skill_b, n, es):
     return math.log(p_a_b/(p_a*p_b))
 
 
-def paiwise_pmi(skills):
+def pairwise_pmi(skills, mapping):
     es = Elasticsearch()
     pmi_scores = collections.defaultdict(dict)
     for s1 in skills:
         for s2 in skills:
             if s1 not in pmi_scores or s2 not in pmi_scores[s1]:
                 score = pmi(s1, s2, 22004, es)
-                pmi_scores[s1][s2] = pmi_scores[s2][s1] = score
-
+                s1_key = mapping[s1] if s1 in mapping else s1
+                s2_key = mapping[s2] if s2 in mapping else s2
+                pmi_scores[s1_key][s2_key] = pmi_scores[s2_key][s1_key] = score
     return pmi_scores
 
 
 if __name__== '__main__':
-    scores = paiwise_pmi(["java","c++","C#","CSS","PHP","Bash","Javascript","Python","Ruby","SQL"])
+    mapping = {'CSS' : 'Cascading_Style_Sheets', 'C#' : 'C_Sharp'}
+    skills = ["JavaScript", "C#", "PHP", "CSS", "Java", "Python", "Ruby", "Bash", "SQL", "C++"]
+    scores = pairwise_pmi(skills, mapping)
     print(scores)
-    with open('C:\Data\SJSU\Fall17\CS297\CS297\ontology\\results\pmi_result.json','w') as f:
+    with open('C:\Data\SJSU\Fall17\CS297\CS297\ontology\\scores\pmi_result.json','w') as f:
         f.write(json.dumps(scores))

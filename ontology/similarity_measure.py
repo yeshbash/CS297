@@ -1,68 +1,10 @@
 import math
 import collections
 import pandas as pd
-import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import cm
 
 from skills_ontology import TSO
-
-
-def _sanchez_similarity(ancestors_a, ancestors_b, a=None, b=None, verbose=True):
-    a_and_b = ancestors_a & ancestors_b
-    a_not_b = ancestors_a - ancestors_b
-    b_not_a = ancestors_b - ancestors_a
-
-    dissimilar_features = len(a_not_b) + len(b_not_a)
-    total_features = len(a_and_b) + len(b_not_a) + len(a_not_b)
-
-    distance = math.log2(1 + dissimilar_features / total_features)
-
-    if verbose:
-        print("Common Features : {}\nOnly in {} : {}\nOnly in {} : {}".format(len(a_and_b), a, len(a_not_b), b,
-                                                                              len(b_not_a)))
-
-    return 1 - distance
-
-
-def _rodriguez_similarity(ancestors_a, ancestors_b, skill_a, skill_b, verbose=True):
-    a_and_b = ancestors_a & ancestors_b
-    a_not_b = ancestors_a - ancestors_b
-    b_not_a = ancestors_b - ancestors_a
-
-    # weight factor
-    epsilon = 10 ** -8
-    alpha = len(a_not_b) / (len(a_not_b) + len(b_not_a) + epsilon)
-    if len(a_not_b) > len(b_not_a):
-        alpha = 1 - alpha
-
-    similarity = math.log2(1 + len(a_and_b) / (alpha * len(a_not_b) + (1 - alpha) * len(b_not_a) + len(a_and_b)))
-    if verbose:
-        print("Common Features : {}\nOnly in {} : {}\nOnly in {} : {}"
-              .format(len(a_and_b), skill_a, len(a_not_b), skill_b, len(b_not_a)))
-        print("Alpha value : {}. Similarity : {}".format(alpha, similarity))
-    return similarity
-
-
-def _reduce_weighted_average(scores, distance_threshold = 1):
-    result = dict()
-    for skill, skill_scores in scores.items():
-        weighted_sum, weight_sum, epsilon = 0, 0, 10**-8,
-        filtered = [s for s in skill_scores if skill_scores[s]["distance"] <= distance_threshold]
-        for s in filtered:
-            weighted_sum += skill_scores[s]["similarity"] * (1-skill_scores[s]["distance"])
-            weight_sum += (1-skill_scores[s]["distance"])
-            result[skill] = weighted_sum / (weight_sum + epsilon)
-    return result
-
-
-def _reduce_mean(scores):
-    if not bool(scores):
-        return scores
-    sum = 0
-    for s in scores:
-        sum += scores[s]
-    return sum/len(scores)
 
 
 def plot_pairwise_scores(scores):
@@ -82,58 +24,102 @@ def plot_pairwise_scores(scores):
     plt.show()
 
 
-class SkillSimilarity:
+class TSOSkillSimilarity:
     def __init__(self):
         self.tso = TSO()
-        self._cache = dict()
+        self._ancestors_cache = dict()
+        self._alias_cache = dict()
 
-    def _check_and_retrieve_ancestors(self, skill_name):
-        if skill_name not in self._cache:
-            ancestors = self.tso.get_skill_ancestors(skill_name=skill_name, hops=3, include_self=True)
-            self._cache[skill_name] = ancestors
-        return self._cache[skill_name]
+    def _resolve_cache(self, resource_type):
+        if resource_type == "ancestors":
+            cache = self._ancestors_cache
+        elif resource_type == "alias":
+            cache = self._alias_cache
+        else:
+            raise Exception("Invalid cache type")
+
+        return cache
+
+    def _cache_get(self, resource_key, resource_type):
+        cache = self._resolve_cache(resource_type)
+        resource = cache[resource_key] if resource_key in cache else None
+        return resource
+
+    def _cache_put(self, resource_key, resource, resource_type):
+        cache = self._resolve_cache(resource_type)
+        cache[resource_key] = resource
+        return cache[resource_key]
+
+    def _check_and_retrieve_ancestors(self, resource_name):
+        resource = self._cache_get(resource_name, resource_type="ancestors")
+        if not resource:
+            ancestors = self.tso.get_skill_ancestors(skill_name=resource_name, hops=2, include_self=True)
+            return self._cache_put(resource_name, resource_type="ancestors", resource=ancestors)
+        return resource
+
+    def _check_and_retrieve_aliases(self, resource_name):
+        resource = self._cache_get(resource_name, resource_type="alias")
+        if not resource:
+            alias = self.tso.resolve_skill(skill_name=resource_name)
+            return self._cache_put(resource_name, resource_type="alias", resource=alias)
+        return resource
 
     def _filter_and_resolve_tso_skills(self, skills_coll):
         filtered_skills = list()
         for skill_name in skills_coll:
-            skill = self.tso.resolve_skill(skill_name)
+            skill = self._check_and_retrieve_aliases(skill_name)
             if skill:
-                print("Skill retrieved for {} is {}".format(skill_name, skill['uri']))
                 filtered_skills.append(skill)
         return filtered_skills
 
-    def pairwise_score(self, skillset_a, skillset_b=None, verbose=False):
-        filtered_skillset_a = self._filter_and_resolve_tso_skills(skillset_a)
-        if bool(skillset_b):
-            filtered_skillset_b = self._filter_and_resolve_tso_skills(skillset_b)
-        else:
-            filtered_skillset_b = filtered_skillset_a
+    def _sanchez_similarity(self, skill_a, skill_b, verbose=True):
+        ancestors_a = self._check_and_retrieve_ancestors(skill_a)
+        ancestors_b = self._check_and_retrieve_ancestors(skill_b)
+
+        a_and_b = ancestors_a & ancestors_b
+        a_not_b = ancestors_a - ancestors_b
+        b_not_a = ancestors_b - ancestors_a
+
+        dissimilar_features = len(a_not_b) + len(b_not_a)
+        total_features = len(a_and_b) + len(b_not_a) + len(a_not_b)
+
+        distance = math.log2(1 + dissimilar_features / total_features)
 
         if verbose:
-            print("{} Job skills not found in ontology : [{}] ".format(len(skillset_a - filtered_skillset_a),
-                                                                       ", ".join(skillset_a - filtered_skillset_a)))
-            print("{} Resume skills not found in ontology : [{}] ".format(len(skillset_b - filtered_skillset_b),
-                                                                          ", ".join(skillset_b - filtered_skillset_b)))
+            print("Common Features for {} and {} : {}".format(skill_a, skill_b, a_and_b))
 
-        sanchez_scores = collections.defaultdict(dict)
-        rodriguez_scores = collections.defaultdict(dict)
-        for job_skill in filtered_skillset_b:
-            job_skill_ansc = self._check_and_retrieve_ancestors(job_skill['name'])
-            for resume_skill in filtered_skillset_a:
-                resume_skill_ansc = self._check_and_retrieve_ancestors(resume_skill['name'])
-                sanchez_sim = _sanchez_similarity(job_skill_ansc, resume_skill_ansc, job_skill['name'],
-                                                  resume_skill['name'], verbose=verbose)
-                rodriguez_sim = _rodriguez_similarity(job_skill_ansc, resume_skill_ansc, job_skill['name'],
-                                                      resume_skill['name'], verbose=verbose)
-                print("{} and {} . Rodriguez Score : {}. Sanchez Score : {}".format(job_skill['name'], resume_skill['name'], rodriguez_sim, sanchez_sim))
-                sanchez_scores[job_skill['name']][resume_skill['name']] = sanchez_sim
-                rodriguez_scores[job_skill['name']][resume_skill['name']] = rodriguez_sim
-        return sanchez_scores, rodriguez_scores
+        return 1 - distance
 
-    def job_resume_skill_similarity(self, similarity_scores, distance_scores):
-        similarity_scores_npa = similarity_scores.values
-        distance_scores_npa = distance_scores
-        weighted_average_score = np.sum(similarity_scores_npa * (1-distance_scores_npa), axis=0) / np.sum((1-distance_scores_npa), 1)
-        print(weighted_average_score)
-        similarity = np.mean(weighted_average_score, axis=0)
+    def _rodriguez_similarity(self, skill_a, skill_b, verbose=True):
+        ancestors_a = self._check_and_retrieve_ancestors(skill_a)
+        ancestors_b = self._check_and_retrieve_ancestors(skill_b)
+
+        a_and_b = ancestors_a & ancestors_b
+        a_not_b = ancestors_a - ancestors_b
+        b_not_a = ancestors_b - ancestors_a
+
+        # weight factor
+        epsilon = 10 ** -8
+        alpha = len(a_not_b) / (len(a_not_b) + len(b_not_a) + epsilon)
+        if len(a_not_b) > len(b_not_a):
+            alpha = 1 - alpha
+
+        similarity = math.log2(1 + len(a_and_b) / (alpha * len(a_not_b) + (1 - alpha) * len(b_not_a) + len(a_and_b)))
+        if verbose:
+            print("Common Features for {} and {} : {}".format(skill_a, skill_b, a_and_b))
+            print("Alpha value : {}. Similarity : {}".format(alpha, similarity))
         return similarity
+
+    def pairwise_score(self, skill_set_a, skill_set_b=None, measure='sanchez', verbose=False):
+
+        filtered_skills_a = self._filter_and_resolve_tso_skills(skill_set_a)
+        filtered_skills_b = self._filter_and_resolve_tso_skills(skill_set_b)
+
+        scores = collections.defaultdict(dict)
+        sim = self._rodriguez_similarity if measure == 'rodriguez' else self._sanchez_similarity
+
+        for a_skill in filtered_skills_a:
+            for b_skill in filtered_skills_b:
+                sim_score = sim(a_skill['name'], b_skill['name'])
+                scores[a_skill['name']][b_skill['name']] = sim_score
+        return scores
